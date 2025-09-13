@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
 import { result } from "./emoji-test.js";
@@ -66,10 +66,16 @@ function emojisToTable(emojis) {
 // const emojis = result["Travel & Places"]["place-building"];
 // printObject(emojisToTable(emojis));
 
-for (const category in result) {
-  console.log(`## ${category}`);
-  for (const subcategory in result[category]) {
-    console.log(`### ${category} / ${subcategory}`);
-    console.log(objToString(emojisToTable(result[category][subcategory])));
+function makeMarkdown() {
+  const lines = [];
+  for (const category in result) {
+    lines.push(`## ${category}`);
+    for (const subcategory in result[category]) {
+      lines.push(`### ${category} / ${subcategory}`);
+      lines.push(objToString(emojisToTable(result[category][subcategory])));
+    }
   }
+  return lines.join("\n");
 }
+
+writeFileSync("papilou.md", makeMarkdown(), "utf8");
