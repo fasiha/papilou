@@ -7,6 +7,20 @@ const full = JSON.parse(
 
 const textToReading = {};
 const textToFurigana = {};
+const CUSTOM = {
+  聞: "き",
+  開: "あ",
+  閉: "と",
+  溶: "と",
+  誇: "ほ",
+  怒: "お",
+  泣: "な",
+  咬: "か",
+  浮: "う",
+  焚: "や",
+  壊: "こ",
+  営: "えい",
+};
 
 for (const entry of full) {
   if (!(entry.text in textToReading)) {
@@ -42,17 +56,22 @@ function tokenize(sentence, dict) {
       });
       i += matchLength;
     } else {
-      // No dictionary match: keep the character as-is
-      segments.push({ original: sentence[i], reading: null });
+      // No dictionary match
+      const char = sentence[i];
+      if (char in CUSTOM) {
+        segments.push({
+          original: char,
+          reading: [{ ruby: char, rt: CUSTOM[char] }],
+        });
+      } else {
+        segments.push({ original: sentence[i], reading: null });
+      }
       i++;
     }
   }
 
   return segments;
 }
-
-// console.log(tokenize("日本語を学校で学ぶ", textToReading));
-// console.dir(tokenize("日本語を学校で学ぶ", textToFurigana), { depth: null });
 
 const makeRuby = ({ ruby, rt }) =>
   rt ? `<ruby>${ruby}<rt>${rt}</rt></ruby>` : ruby;
