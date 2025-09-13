@@ -63,18 +63,25 @@ function emojisToTable(emojis) {
   return emojiToLangToCell;
 }
 
-// const emojis = result["Travel & Places"]["place-building"];
-// printObject(emojisToTable(emojis));
+function isEmptyObj(obj) {
+  for (const _ in obj) {
+    return false;
+  }
+  return true;
+}
 
 function makeMarkdown() {
   const lines = [];
   for (const category in result) {
     lines.push(`## ${category}`);
     for (const subcategory in result[category]) {
+      const table = emojisToTable(result[category][subcategory]);
+      if (isEmptyObj(table)) continue;
       lines.push(`### ${category} / ${subcategory}`);
-      lines.push(objToString(emojisToTable(result[category][subcategory])));
+      lines.push(objToString(table));
     }
   }
+  lines.push("\n");
   return lines.join("\n");
 }
 

@@ -591,12 +591,6 @@
 | 👣 | footprints | traces de pas | huellas de pies | <ruby>脚<rt>jiǎo</rt></ruby><ruby>印<rt>yìn</rt></ruby> | <ruby>足<rt>あし</rt></ruby>あと | أَثَّرَ قَدَمَيْنِ | jejak kaki | mga bakas ng paa |
 | 🫆 | fingerprint | empreinte digitale | huella dactilar | <ruby>指<rt>zhǐ</rt></ruby><ruby>纹<rt>wén</rt></ruby> | <ruby>指<rt>し</rt></ruby><ruby>紋<rt>もん</rt></ruby> | بَصْمَة | sidik jari | bakas ng daliri |
 ## Component
-### Component / skin-tone
-| Emoji | en | fr | es | zh | ja | ar | id | fil |
-|---|---|---|---|---|---|---|---|---|
-### Component / hair-style
-| Emoji | en | fr | es | zh | ja | ar | id | fil |
-|---|---|---|---|---|---|---|---|---|
 ## Animals & Nature
 ### Animals & Nature / animal-mammal
 | Emoji | en | fr | es | zh | ja | ar | id | fil |
@@ -1778,9 +1772,6 @@
 | ® | registered | marque déposée | marca registrada | <ruby>注<rt>zhù</rt></ruby><ruby>册<rt>cè</rt></ruby> | <ruby>登<rt>とう</rt></ruby><ruby>録<rt>ろく</rt></ruby><ruby>商<rt>しょう</rt></ruby><ruby>標<rt>ひょう</rt></ruby>マーク | مُسَجَّلُ | terdaftar | rehistrado |
 | ™ | trade mark | marque commerciale déposée | símbolo de marca comercial | <ruby>商<rt>shāng</rt></ruby><ruby>标<rt>biāo</rt></ruby> | <ruby>商<rt>しょう</rt></ruby><ruby>標<rt>ひょう</rt></ruby>マーク | إِشارَةٍ عَلامَةً تِجارِيَّةٍ | merek dagang | trade mark |
 | 🫟 | splatter | éclaboussure | salpicadura | <ruby>泼<rt>pō</rt></ruby> <ruby>溅<rt>jiàn</rt></ruby> | <ruby>飛<rt>と</rt></ruby>び<ruby>散<rt>ばら</rt></ruby>ったペンキ | بُقْعَةٍ | percikan | tilamsik |
-### Symbols / keycap
-| Emoji | en | fr | es | zh | ja | ar | id | fil |
-|---|---|---|---|---|---|---|---|---|
 ### Symbols / alphanum
 | Emoji | en | fr | es | zh | ja | ar | id | fil |
 |---|---|---|---|---|---|---|---|---|
@@ -1872,9 +1863,4 @@
 | 🏳‍🌈 | rainbow flag | drapeau arc-en-ciel | bandera del arcoíris | <ruby>彩<rt>cǎi</rt></ruby><ruby>虹<rt>hóng</rt></ruby> <ruby>旗<rt>qí</rt></ruby> | レインボーフラッグ | عُلِمَ أَلْوانُ طَيْفِ | bendera pelangi | bahagharing bandila |
 | 🏳‍⚧ | transgender flag | drapeau transgenre | bandera transgénero | <ruby>跨<rt>kuà</rt></ruby> <ruby>性<rt>xìng</rt></ruby><ruby>别<rt>bié</rt></ruby> <ruby>旗<rt>qí</rt></ruby> | トランスジェンダーフラッグ | عُلِمَ المُتَحَوِّلَيْنِ جِنْسِيّا | bendera transgender | bandila ng transgender |
 | 🏴‍☠ | pirate flag | drapeau de pirate | bandera pirata | <ruby>海<rt>hǎi</rt></ruby><ruby>盗<rt>dào</rt></ruby><ruby>旗<rt>qí</rt></ruby> | <ruby>海<rt>かい</rt></ruby><ruby>賊<rt>ぞく</rt></ruby><ruby>旗<rt>き</rt></ruby> | عُلِمَ قَراصِنَةِ | bendera bajak laut | bandila ng pirata |
-### Flags / country-flag
-| Emoji | en | fr | es | zh | ja | ar | id | fil |
-|---|---|---|---|---|---|---|---|---|
-### Flags / subdivision-flag
-| Emoji | en | fr | es | zh | ja | ar | id | fil |
-|---|---|---|---|---|---|---|---|---|
+
