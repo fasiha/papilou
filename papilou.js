@@ -27,7 +27,7 @@ const languageToDatabase = Object.fromEntries(
   ])
 );
 
-function objectToTable(obj) {
+function printObject(obj) {
   const header = `| Emoji | ${languages.join(" | ")} |`;
   console.log(header);
   console.log("|---".repeat(languages.length + 1) + "|");
@@ -62,5 +62,13 @@ function emojisToTable(emojis) {
   return emojiToLangToCell;
 }
 
-const emojis = result["Travel & Places"]["place-building"];
-console.log(objectToTable(emojisToTable(emojis)));
+// const emojis = result["Travel & Places"]["place-building"];
+// printObject(emojisToTable(emojis));
+
+for (const category in result) {
+  console.log(`## ${category}`);
+  for (const subcategory in result[category]) {
+    console.log(`### ${category} / ${subcategory}`);
+    printObject(emojisToTable(result[category][subcategory]));
+  }
+}

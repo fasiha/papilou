@@ -35,7 +35,7 @@ def add_ruby_tags(text: str) -> str:
             word.append(f"<ruby>{char}<rt>{py_with_tone}</rt></ruby>")
         words.append(''.join(word))
 
-    return '　'.join(words)
+    return ' '.join(words)
 
 
 def number_to_tone(pinyin: str) -> str:
