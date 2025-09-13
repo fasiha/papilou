@@ -8,7 +8,7 @@ import { originalToPinyin } from "./chinese.js";
 
 const CLDR = process.env.CLDR || "cldr-47";
 
-const languages = ["en", "fr", "es", "zh", "ja", "ar", "id"];
+const languages = ["en", "fr", "es", "zh", "ja", "ar", "id", "fil"];
 const languageToDatabase = Object.fromEntries(
   languages.map((lang) => [
     lang,
@@ -27,14 +27,15 @@ const languageToDatabase = Object.fromEntries(
   ])
 );
 
-function printObject(obj) {
-  const header = `| Emoji | ${languages.join(" | ")} |`;
-  console.log(header);
-  console.log("|---".repeat(languages.length + 1) + "|");
+function objToString(obj) {
+  const lines = [`| Emoji | ${languages.join(" | ")} |`];
+  lines.push("|---".repeat(languages.length + 1) + "|");
 
   for (const emoji in obj) {
-    console.log(`| ${emoji} | ${Object.values(obj[emoji]).join(" | ")} |`);
+    lines.push(`| ${emoji} | ${Object.values(obj[emoji]).join(" | ")} |`);
   }
+
+  return lines.join("\n");
 }
 
 function emojisToTable(emojis) {
@@ -69,6 +70,6 @@ for (const category in result) {
   console.log(`## ${category}`);
   for (const subcategory in result[category]) {
     console.log(`### ${category} / ${subcategory}`);
-    printObject(emojisToTable(result[category][subcategory]));
+    console.log(objToString(emojisToTable(result[category][subcategory])));
   }
 }
