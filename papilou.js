@@ -6,48 +6,61 @@ import { parse as parseJapanese } from "./jmdict.js";
 import { originalToDiacritics } from "./arabic.js";
 import { originalToPinyin } from "./chinese.js";
 
+const CLDR = process.env.CLDR || "cldr-47";
+
 const languages = ["en", "fr", "es", "zh", "ja", "ar", "id"];
+const languageToDatabase = Object.fromEntries(
+  languages.map((lang) => [
+    lang,
+    JSON.parse(
+      readFileSync(
+        join(
+          CLDR,
+          "cldr-annotations-full",
+          "annotations",
+          lang,
+          "annotations.json"
+        ),
+        "utf8"
+      )
+    ),
+  ])
+);
 
-const emojis = result["Travel & Places"]["place-building"];
+function objectToTable(obj) {
+  const header = `| Emoji | ${languages.join(" | ")} |`;
+  console.log(header);
+  console.log("|---".repeat(languages.length + 1) + "|");
 
-// console.log(emojis);
-
-const emojiToLangToCell = {};
-for (const lang of languages) {
-  const full = JSON.parse(readFileSync(join(lang, "annotations.json"), "utf8"));
-
-  for (const emoji of emojis) {
-    const hit = full.annotations.annotations[emoji.emoji];
-    if (!hit) continue;
-    if (!(emoji.emoji in emojiToLangToCell))
-      emojiToLangToCell[emoji.emoji] = {};
-
-    const text = hit.tts.join("; ");
-    emojiToLangToCell[emoji.emoji][lang] =
-      lang === "ja"
-        ? parseJapanese(text)
-        : lang === "ar"
-        ? originalToDiacritics[text] ?? text
-        : lang === "zh"
-        ? originalToPinyin[text] ?? text
-        : text;
+  for (const emoji in obj) {
+    console.log(`| ${emoji} | ${Object.values(obj[emoji]).join(" | ")} |`);
   }
 }
 
-// console.log(emojiToLangToCell);
+function emojisToTable(emojis) {
+  const emojiToLangToCell = {};
+  for (const lang of languages) {
+    const full = languageToDatabase[lang];
 
-const header = `| Emoji | ${languages.join(" | ")} |`;
-console.log(header);
-console.log("|---".repeat(languages.length + 1) + "|");
+    for (const emoji of emojis) {
+      const hit = full.annotations.annotations[emoji.emoji];
+      if (!hit) continue;
+      if (!(emoji.emoji in emojiToLangToCell))
+        emojiToLangToCell[emoji.emoji] = {};
 
-for (const emoji in emojiToLangToCell) {
-  console.log(
-    `| ${emoji} | ${Object.values(emojiToLangToCell[emoji]).join(" | ")} |`
-  );
+      const text = hit.tts.join("; ");
+      emojiToLangToCell[emoji.emoji][lang] =
+        lang === "ja"
+          ? parseJapanese(text)
+          : lang === "ar"
+          ? originalToDiacritics[text] ?? text
+          : lang === "zh"
+          ? originalToPinyin[text] ?? text
+          : text;
+    }
+  }
+  return emojiToLangToCell;
 }
 
-// console.log(
-//   Object.values(emojiToLangToCell)
-//     .map((o) => o.zh)
-//     .join(" ")
-// );
+const emojis = result["Travel & Places"]["place-building"];
+console.log(objectToTable(emojisToTable(emojis)));
