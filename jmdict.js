@@ -1,12 +1,16 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 
+const REQUIRE_ALL_FURIGANA = !!process.env.REQUIRE_ALL_FURIGANA || false;
+const KANJI_REGEXP =
+  /[\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u3005\u3007\u3021-\u3029\u3038-\u303B\u3400-\u4DB5\u4E00-\u9FEF\uF900-\uFA6D\uFA70-\uFAD9]/;
+
 const full = JSON.parse(
   readFileSync(join("JmdictFurigana.json"), "utf8").trim()
 );
-
-const textToReading = {};
-const textToFurigana = {};
+function hasKanji(s) {
+  return KANJI_REGEXP.test(s);
+}
 const CUSTOM = {
   聞: "き",
   開: "あ",
@@ -22,9 +26,10 @@ const CUSTOM = {
   営: "えい",
 };
 
+const textToFurigana = {};
+
 for (const entry of full) {
-  if (!(entry.text in textToReading)) {
-    textToReading[entry.text] = entry.reading;
+  if (!(entry.text in textToFurigana)) {
     textToFurigana[entry.text] = entry.furigana;
   } else {
     // duplicate text with different readings
@@ -64,7 +69,10 @@ function tokenize(sentence, dict) {
           reading: [{ ruby: char, rt: CUSTOM[char] }],
         });
       } else {
-        segments.push({ original: sentence[i], reading: null });
+        if (REQUIRE_ALL_FURIGANA && hasKanji(char)) {
+          throw new Error(`No furigana found for character: ${char}`);
+        }
+        segments.push({ original: char, reading: null });
       }
       i++;
     }
