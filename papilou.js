@@ -124,7 +124,8 @@ function makeHtml() {
     makeHeaderRow([
       "<th></th>",
       ...languages.map(
-        (l) => `<th lang="${l}"><div>${LANG_TO_NAME[l]}</div></th>`
+        (l) =>
+          `<th lang="${l}"><div>${LANG_TO_NAME[l]}<div class="buttons"/></div></th>`
       ),
     ])
   );

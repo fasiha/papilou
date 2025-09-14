@@ -1,6 +1,6 @@
 const japanese = (th) => {
-  const content = th.querySelector("div");
-  if (!content) return;
+  const buttons = th.querySelector("div.buttons");
+  if (!buttons) return;
 
   const button = document.createElement("button");
   button.textContent = "ルビ";
@@ -11,14 +11,12 @@ const japanese = (th) => {
       document.body.classList.contains("hide-ja-ruby")
     );
   };
-  const div = document.createElement("div");
-  div.appendChild(button);
-  content.appendChild(div);
+  buttons.appendChild(button);
 };
 
 const chinese = (th) => {
-  const content = th.querySelector("div");
-  if (!content) return;
+  const buttons = th.querySelector("div.buttons");
+  if (!buttons) return;
 
   const button = document.createElement("button");
   button.textContent = "拼音";
@@ -29,16 +27,59 @@ const chinese = (th) => {
       document.body.classList.contains("hide-zh-ruby")
     );
   };
-  const div = document.createElement("div");
-  div.appendChild(button);
-  content.appendChild(div);
+  buttons.appendChild(button);
+};
+
+const addDeleteButton = (th, lang) => {
+  const content = th.querySelector("div.buttons");
+  if (!content) return;
+
+  const button = document.createElement("button");
+  button.textContent = "🚮";
+  button.onclick = () => {
+    document.body.classList.toggle(`hide-lang-${lang}`);
+  };
+  content.appendChild(button);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Dynamically generate and inject CSS for hiding language columns
+  const style = document.createElement("style");
+  style.type = "text/css";
+  const cssRules = [];
+
+  document.querySelectorAll("thead tr.languages th[lang]").forEach((th) => {
+    const lang = th.getAttribute("lang");
+    cssRules.push(`body.hide-lang-${lang} [lang="${lang}"] { display: none; }`);
+  });
+
+  style.textContent = cssRules.join("\n");
+  document.head.appendChild(style);
+
+  // Add delete buttons to each language column header
   for (const th of document.querySelectorAll("thead tr.languages th[lang]")) {
     const lang = th.getAttribute("lang");
 
     if (lang === "ja") japanese(th);
     else if (lang === "zh") chinese(th);
+
+    addDeleteButton(th, lang);
+  }
+
+  // Add reinstate button to the first column header
+  const reinstateButton = document.createElement("button");
+  reinstateButton.textContent = "↩️";
+  reinstateButton.onclick = () => {
+    document.body.className = document.body.className
+      .split(" ")
+      .filter((cls) => !cls.startsWith("hide-lang-"))
+      .join(" ");
+  };
+
+  const firstColumnHeader = document.querySelector(
+    "thead tr.languages th:first-child"
+  );
+  if (firstColumnHeader) {
+    firstColumnHeader.appendChild(reinstateButton);
   }
 });
