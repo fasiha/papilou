@@ -13,5 +13,8 @@ const pinyin = readFileSync(join("chinese-pinyin.txt"), "utf8")
 assert(original.length === pinyin.length);
 
 export const originalToPinyin = Object.fromEntries(
-  original.map((text, i) => [text, pinyin[i]])
+  original.map((text, i) => [
+    text,
+    pinyin[i].replace(/(\s+)/g, '<span class="whitespace">$1</span>'),
+  ])
 );
