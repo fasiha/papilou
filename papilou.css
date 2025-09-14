@@ -69,6 +69,10 @@ td:first-child {
   z-index: 2;
 }
 
+thead tr:first-child th:first-child {
+  z-index: 3;
+}
+
 /* Buttons to hide furigana/pinyin */
 thead tr.languages th[lang] div {
   display: flex;
