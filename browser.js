@@ -42,8 +42,7 @@ const addDeleteButton = (th, lang) => {
   content.appendChild(button);
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Dynamically generate and inject CSS for hiding language columns
+const createCss = () => {
   const style = document.createElement("style");
   const cssRules = [];
 
@@ -54,6 +53,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   style.textContent = cssRules.join("\n");
   document.head.appendChild(style);
+};
+
+const addReinstateButton = () => {
+  const reinstateButton = document.createElement("button");
+  reinstateButton.textContent = "↩️";
+  reinstateButton.onclick = () => {
+    for (const cls of document.body.classList) {
+      if (cls.startsWith("hide-lang-")) document.body.classList.remove(cls);
+    }
+  };
+
+  const firstColumnHeader = document.querySelector(
+    "thead tr.languages th:first-child"
+  );
+  if (firstColumnHeader) {
+    firstColumnHeader.appendChild(reinstateButton);
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Dynamically generate and inject CSS for hiding language columns
+  createCss();
 
   // Add delete buttons to each language column header
   for (const th of document.querySelectorAll("thead tr.languages th[lang]")) {
@@ -66,20 +87,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Add reinstate button to the first column header
-  const reinstateButton = document.createElement("button");
-  reinstateButton.textContent = "↩️";
-  reinstateButton.onclick = () => {
-    document.body.classList.forEach((cls) => {
-      if (cls.startsWith("hide-lang-")) {
-        document.body.classList.remove(cls);
-      }
-    });
-  };
-
-  const firstColumnHeader = document.querySelector(
-    "thead tr.languages th:first-child"
-  );
-  if (firstColumnHeader) {
-    firstColumnHeader.appendChild(reinstateButton);
-  }
+  addReinstateButton();
 });
