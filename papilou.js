@@ -6,9 +6,26 @@ import { parse as parseJapanese } from "./jmdict.js";
 import { originalToDiacritics } from "./arabic.js";
 import { originalToPinyin } from "./chinese.js";
 
+const languages = ["en", "fr", "es", "zh", "ja", "ar", "id", "fil"];
+const LANG_TO_NAME = {
+  en: "English",
+  fr: "Français",
+  es: "Español",
+  zh: "中文",
+  ja: "日本語",
+  ar: "العربية",
+  id: "Bahasa Indonesia",
+  fil: "Filipino",
+};
 const CLDR = process.env.CLDR || "cldr-47";
 
-const languages = ["en", "fr", "es", "zh", "ja", "ar", "id", "fil"];
+if (
+  Object.keys(LANG_TO_NAME).length !== languages.length ||
+  !languages.every((l) => l in LANG_TO_NAME)
+) {
+  throw new Error("LANG_TO_NAME is missing some languages");
+}
+
 const languageToDatabase = Object.fromEntries(
   languages.map((lang) => [
     lang,
@@ -88,19 +105,30 @@ function makeMarkdown() {
 function makeHtml() {
   const lines = [];
   lines.push(`<html><head><meta charset="utf-8"><title>Papilou</title>`);
-  lines.push('<link rel="stylesheet" href="./papilou.css"></style>');
+  lines.push('<link rel="stylesheet" href="./papilou.css">');
+  lines.push(
+    `<meta name="viewport" content="width=device-width, initial-scale=1"/>`
+  );
   lines.push(`</head><body>`);
   lines.push(`<table>`);
 
   const makeHeaderRow = (cells) =>
-    `<tr class="languages">${cells.map((c) => `<th>${c}</th>`).join("")}</tr>`;
+    `<tr class="languages">${cells.join("")}</tr>`;
   const makeSingleRow = (content) =>
     `<tr class="category"><th colspan="${
       languages.length + 1
     }">${content}</th></tr>`;
 
   lines.push("<thead>");
-  lines.push(makeHeaderRow(["Emoji", ...languages]));
+  lines.push(
+    makeHeaderRow([
+      "<th></th>",
+      ...languages.map(
+        (l) => `<th lang="${l}"><div>${LANG_TO_NAME[l]}</div></th>`
+      ),
+    ])
+  );
+
   lines.push("</thead>");
   for (const category in CATEGORY_SUBCAT_EMOJI) {
     for (const subcategory in CATEGORY_SUBCAT_EMOJI[category]) {
@@ -121,6 +149,7 @@ function makeHtml() {
     }
   }
   lines.push(`</table>`);
+  lines.push(`<script src="./browser.js" defer></script>`);
   lines.push(`</body></html>`);
   return lines.join("\n");
 }
