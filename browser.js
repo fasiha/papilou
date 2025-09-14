@@ -45,7 +45,6 @@ const addDeleteButton = (th, lang) => {
 document.addEventListener("DOMContentLoaded", () => {
   // Dynamically generate and inject CSS for hiding language columns
   const style = document.createElement("style");
-  style.type = "text/css";
   const cssRules = [];
 
   document.querySelectorAll("thead tr.languages th[lang]").forEach((th) => {
@@ -70,10 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const reinstateButton = document.createElement("button");
   reinstateButton.textContent = "↩️";
   reinstateButton.onclick = () => {
-    document.body.className = document.body.className
-      .split(" ")
-      .filter((cls) => !cls.startsWith("hide-lang-"))
-      .join(" ");
+    document.body.classList.forEach((cls) => {
+      if (cls.startsWith("hide-lang-")) {
+        document.body.classList.remove(cls);
+      }
+    });
   };
 
   const firstColumnHeader = document.querySelector(
